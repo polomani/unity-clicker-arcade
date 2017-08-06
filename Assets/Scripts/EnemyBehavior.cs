@@ -6,7 +6,8 @@ public class EnemyBehavior : MonoBehaviour {
 
     public float speed = 20;
     private Rigidbody rBody;
-    public SpawnType spawnType;
+    private SpawnType spawnType;
+    public SpawnPlaceBehavior spawn;
     private EnemyType type;
     private bool isGrounded = true;
     private EnemyState state = EnemyState.Init;
@@ -15,6 +16,7 @@ public class EnemyBehavior : MonoBehaviour {
 
 
 	void Start () {
+        spawnType = spawn.spawnType;
         rBody = GetComponent<Rigidbody>();
         xSide = new Vector3 (-transform.position.normalized.x, 0, 0);
         if (spawnType == SpawnType.TOP)
@@ -26,6 +28,7 @@ public class EnemyBehavior : MonoBehaviour {
         }
         else
         {
+            rBody.useGravity = false;
             state = EnemyState.CrowlUp;
         }
 	}
@@ -61,18 +64,20 @@ public class EnemyBehavior : MonoBehaviour {
         }
         if (state == EnemyState.CrowlUp)
         {
-            if (isGrounded)
-            {
+            Vector3 upperSpawn = spawn.nearestSpawnPlaces[0].transform.position;
+            if (upperSpawn.y > rBody.transform.position.y)
+            {     
                 rBody.velocity = new Vector3(0, speed, 0);
             }
             else
             {
+                rBody.useGravity = true;
                 state = EnemyState.CrowlAhead;
             }     
-        }
-        if (state == EnemyState.CrowlAhead)
+        } else if (state == EnemyState.CrowlAhead)
         {
-            if (rBody.position.z > 0 || isGrounded)
+            Vector3 upperSpawn = spawn.nearestSpawnPlaces[0].transform.position;
+            if (rBody.position.z > upperSpawn.z - 0.2)
             {
                 rBody.velocity = new Vector3(0, 0, -speed);
             }

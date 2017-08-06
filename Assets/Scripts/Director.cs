@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Director {
 
-    private const int ENEMIES_TO_KILL = 1;
+    private const int ENEMIES_TO_KILL = 5;
     private static int enemiesSummoned = 0;
     private static int enemiesKilled = 0;
     private static int score = 0;

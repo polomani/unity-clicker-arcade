@@ -11,8 +11,6 @@ public class BossBehavior : MonoBehaviour {
     private GameObject spawn;
     private MoveType lastMove;
     private int movesInRow = 1;
-    private SpawnType spawnType;
-    private GameObject[] spawnPoints;
     private const float hitPower = 10;
     public float dodgeSpeed = 10;
     public static float totalHP;
@@ -20,16 +18,12 @@ public class BossBehavior : MonoBehaviour {
 
     void Awake()
     {
-        HP = totalHP = 310;
-        spawnPoints = GameObject.FindGameObjectsWithTag("Respawn").
-            Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType != SpawnType.DOWN).
-            ToArray();
+        HP = totalHP = 130;
         GameObject[] firstSpawns = GameObject.FindGameObjectsWithTag("Respawn").
             Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType == SpawnType.TOP).
             ToArray();
         spawn = firstSpawns[Random.Range(0, firstSpawns.Length)];
         transform.position = spawn.transform.position;
-        spawnType = spawn.GetComponent<SpawnPlaceBehavior>().spawnType;
         StartCoroutine("PrepareForBattle");
 	}
 

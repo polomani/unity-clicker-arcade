@@ -12,14 +12,18 @@ public class BulletBehavior : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         Destroy(gameObject);
-        if (col.gameObject.tag == "Enemy")
+        if (col.gameObject.CompareTag("Enemy"))
         {
             col.gameObject.GetComponent<EnemyBehavior>().Hit();
         }
-        else if (col.gameObject.tag == "Boss")
+        else if (col.gameObject.CompareTag("Boss"))
         {
             col.gameObject.GetComponent<BossBehavior>().Hit();
         }
+        else if (col.gameObject.CompareTag("Player"))
+        {
+            Director.HeroDied();
+        } 
     }
 }
 

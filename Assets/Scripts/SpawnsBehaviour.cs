@@ -25,7 +25,7 @@ public class SpawnsBehaviour : MonoBehaviour {
             {
                 GameObject spawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
                 GameObject enemy = Instantiate(enemyPrefab, spawn.transform.position, Quaternion.Euler(0, 0, 0));
-                enemy.GetComponent<EnemyBehavior>().spawnType = spawn.GetComponent<SpawnPlaceBehavior>().spawnType;
+                enemy.GetComponent<EnemyBehavior>().spawn = spawn.GetComponent<SpawnPlaceBehavior>();
                 Director.EnemiesSummoned++;
                 yield return new WaitForSeconds(spawnSpeed);
             }
