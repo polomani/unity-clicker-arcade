@@ -13,19 +13,14 @@ public class BossBehavior : MonoBehaviour {
     private int movesInRow = 1;
     private SpawnType spawnType;
     private GameObject[] spawnPoints;
-    private float health;
     private const float hitPower = 10;
     public float dodgeSpeed = 10;
-
-    public float Health
-    {
-        get { return health; }
-        set { health = value; }
-    }
+    public static float totalHP;
+    public static float HP;
 
     void Awake()
     {
-        health = 100;
+        HP = totalHP = 310;
         spawnPoints = GameObject.FindGameObjectsWithTag("Respawn").
             Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType != SpawnType.DOWN).
             ToArray();
@@ -42,8 +37,9 @@ public class BossBehavior : MonoBehaviour {
 
     public void Hit()
     {
-        health -= hitPower;
-        if (health == 0)
+        HP -= hitPower;
+        Director.Score++;
+        if (HP == 0)
         {
             Destroy(gameObject);
             Director.BossKilled();

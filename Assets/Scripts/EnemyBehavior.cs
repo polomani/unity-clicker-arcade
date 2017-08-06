@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour {
 
-    private GameObject aim;
     public float speed = 20;
     private Rigidbody rBody;
     public SpawnType spawnType;
@@ -16,7 +15,6 @@ public class EnemyBehavior : MonoBehaviour {
 
 
 	void Start () {
-        aim = Director.Hero.gameObject;
         rBody = GetComponent<Rigidbody>();
         xSide = new Vector3 (-transform.position.normalized.x, 0, 0);
         if (spawnType == SpawnType.TOP)
@@ -90,6 +88,7 @@ public class EnemyBehavior : MonoBehaviour {
     {
         Destroy(gameObject);
         Director.EnemyKilled();
+        Director.Score++;
     }
 }
 

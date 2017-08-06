@@ -31,7 +31,7 @@ public class SpawnsBehaviour : MonoBehaviour {
             }
             else
             {
-                //StopCoroutine("AddEnemy");
+                StopCoroutine("AddEnemy");
                 yield return null;
             }
         }

@@ -4,9 +4,25 @@ using UnityEngine;
 
 public static class Director {
 
-    private const int ENEMIES_TO_KILL = 5;
+    private const int ENEMIES_TO_KILL = 1;
     private static int enemiesSummoned = 0;
     private static int enemiesKilled = 0;
+    private static int score = 0;
+
+    private static HealthBarBehaviour healthBar;
+
+    public static HealthBarBehaviour HealthBar
+    {
+        get { return healthBar; }
+        set { healthBar = value; }
+    }
+
+
+    public static int Score
+    {
+        get { return Director.score; }
+        set { Director.score = value; }
+    }
 
     public static int EnemiesSummoned
     {
@@ -48,12 +64,14 @@ public static class Director {
         enemiesKilled = 0;
         enemiesSummoned = 0;
         Spawns.StartCoroutine("AddEnemy");
+        healthBar.Hide();
     }
 
     public static void HeroDied()
     {
         enemiesKilled = 0;
         enemiesSummoned = 0;
+        score = 0;
     }
 
     public static void EnemyKilled()
@@ -63,11 +81,12 @@ public static class Director {
         {
             bossMode = true;
             spawns.SummonBoss();
+            healthBar.Show();
         }
     }
 
     public static bool NeedMoreEnemies()
     {
-        return bossMode || enemiesSummoned < ENEMIES_TO_KILL;
+        return bossMode || enemiesSummoned <= ENEMIES_TO_KILL;
     }
 }
