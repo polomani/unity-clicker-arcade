@@ -8,6 +8,13 @@ public static class Director {
     private static int enemiesSummoned = 0;
     private static int enemiesKilled = 0;
     private static int score = 0;
+    private static bool windowOpened;
+
+    public static bool WindowOpened
+    {
+        get { return Director.windowOpened; }
+        set { Director.windowOpened = value; }
+    }
 
     private static HealthBarBehaviour healthBar;
 
@@ -63,7 +70,7 @@ public static class Director {
         bossMode = false;
         enemiesKilled = 0;
         enemiesSummoned = 0;
-        Spawns.StartCoroutine("AddEnemy");
+        spawns.StartCoroutine("PrepareForWave");
         healthBar.Hide();
     }
 
@@ -82,11 +89,17 @@ public static class Director {
             bossMode = true;
             spawns.SummonBoss();
             healthBar.Show();
+            spawns.StopCoroutine("SummonEnemy");
         }
     }
 
     public static bool NeedMoreEnemies()
     {
-        return bossMode || enemiesSummoned <= ENEMIES_TO_KILL;
+        return bossMode || enemiesSummoned < ENEMIES_TO_KILL;
+    }
+
+    public static bool canShoot()
+    {
+        return !windowOpened;
     }
 }

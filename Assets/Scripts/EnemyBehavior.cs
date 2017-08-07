@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour {
 
-    public float speed = 20;
+    public float speed;
+    public float highSpeed;
+    public float slowSpeed;
     private Rigidbody rBody;
     private SpawnType spawnType;
     public SpawnPlaceBehavior spawn;
@@ -59,7 +61,7 @@ public class EnemyBehavior : MonoBehaviour {
         {
             state = EnemyState.Jump;
             Vector3 moveVector = (type == EnemyType.TopStrongJumper) ?
-                                 xSide * 8 / 1.5f : xSide * 8 / 6f;
+                                 xSide * highSpeed : xSide * slowSpeed;
             rBody.velocity = moveVector;
         }
         if (state == EnemyState.CrowlUp)

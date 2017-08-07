@@ -38,7 +38,7 @@ public class HealthBarBehaviour : MonoBehaviour {
 
         int nLines = (int) Math.Ceiling (BossBehavior.totalHP/ 100);
         for (int i = 0; i < nLines; ++i) {
-            int k = 1 + i % 3;
+            int k = 1 + i % textures.Length;
             float barLen = (BossBehavior.HP - 100f * i) / 100f;
             if (barLen > 1) barLen = 1;
             barsLen[i] = Mathf.MoveTowards(barsLen[i], barLen, 0.5f*Time.deltaTime);

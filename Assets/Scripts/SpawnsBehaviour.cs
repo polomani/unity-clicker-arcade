@@ -13,12 +13,19 @@ public class SpawnsBehaviour : MonoBehaviour {
 	void Start () {
         Director.Spawns = this;
         spawnPoints = GameObject.FindGameObjectsWithTag("Respawn").
-            Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType!=SpawnType.CENTER).
+            Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType==SpawnType.TOP
+                   || o.GetComponent<SpawnPlaceBehavior>().spawnType==SpawnType.DOWN).
             ToArray();
-        StartCoroutine("AddEnemy");
+        StartCoroutine("PrepareForWave");
 	}
 
-    private IEnumerator AddEnemy() {
+    public IEnumerator PrepareForWave()
+    {
+        yield return new WaitForSeconds(1);
+        StartCoroutine("SummonEnemy");
+    }
+
+    private IEnumerator SummonEnemy() {
         while (true)
         {
             if (!Director.BossMode && Director.NeedMoreEnemies())
@@ -31,8 +38,9 @@ public class SpawnsBehaviour : MonoBehaviour {
             }
             else
             {
-                StopCoroutine("AddEnemy");
-                yield return null;
+                //StopCoroutine("SummonEnemy");
+                yield return new WaitForSeconds(spawnSpeed);
+                //yield return null;
             }
         }
     }
@@ -40,6 +48,6 @@ public class SpawnsBehaviour : MonoBehaviour {
     public void SummonBoss ()
     {
         Instantiate(bossPrefab);
-        StopCoroutine("AddEnemy");
+        StopCoroutine("SummonEnemy");
     }
 }

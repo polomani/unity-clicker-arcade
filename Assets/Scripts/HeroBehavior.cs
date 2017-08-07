@@ -19,7 +19,7 @@ public class HeroBehavior : MonoBehaviour {
     }
 
 	void Update () {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && Director.canShoot())
         {
             GameObject bullet;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

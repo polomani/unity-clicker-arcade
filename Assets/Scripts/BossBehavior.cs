@@ -13,12 +13,18 @@ public class BossBehavior : MonoBehaviour {
     private int movesInRow = 1;
     private const float hitPower = 10;
     public float dodgeSpeed = 10;
-    public static float totalHP;
+    public static float totalHP = 80;
     public static float HP;
+    public ScreenBackground back;
 
     void Awake()
     {
-        HP = totalHP = 130;
+        if (totalHP < 500)
+        {
+            if (totalHP < 200) totalHP += 20;
+            else totalHP += 25;
+        }
+        HP = totalHP;
         GameObject[] firstSpawns = GameObject.FindGameObjectsWithTag("Respawn").
             Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType == SpawnType.TOP).
             ToArray();
@@ -46,7 +52,7 @@ public class BossBehavior : MonoBehaviour {
 
     private IEnumerator PrepareForBattle()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         StartCoroutine("AI");
     }
 
@@ -79,24 +85,28 @@ public class BossBehavior : MonoBehaviour {
 
     private MoveType DecideMove() {
         MoveType move =  (MoveType) Random.Range(0, 2);
-        if (move == MoveType.DODGE && movesInRow == 3)
+        if (move == lastMove)
         {
-            move = MoveType.FIRE;
-            movesInRow = 1;
-        } 
-        else if (move == MoveType.FIRE && movesInRow == 2)
-        {
-            move = MoveType.DODGE;
-            movesInRow = 1;
-        }
-        else if (move!=lastMove)
-        {
-            movesInRow = 1;
+            if (move == MoveType.DODGE && movesInRow >= 2)
+            {
+                move = MoveType.FIRE;
+                movesInRow = 1;
+            }
+            else if (move == MoveType.FIRE && movesInRow >= 2)
+            {
+                move = MoveType.DODGE;
+                movesInRow = 1;
+            }
+            else
+            {
+                movesInRow++;
+            }
         }
         else
         {
-            movesInRow++;
+            movesInRow = 1;
         }
+        
         return lastMove = move;
     }
 }
