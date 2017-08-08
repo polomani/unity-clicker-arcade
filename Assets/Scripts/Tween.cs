@@ -5,17 +5,45 @@ using System;
 
 public class Tween : MonoBehaviour{
 
-    private void setValue(Component obj, string property, float value)
+    private static GameObject holder;
+
+    private static GameObject Holder
+    {
+        get {
+            if (holder == null)
+            {
+                holder = new GameObject("TweenHolder");
+                holder.AddComponent<Tween>();
+            }
+            return Tween.holder; 
+        }
+    }
+
+    private static Tween tweenInstance;
+
+    private static Tween TweenInstance
+    {
+        get
+        {
+            if (tweenInstance == null)
+            {
+                tweenInstance = Holder.GetComponent<Tween>();
+            }
+            return tweenInstance; 
+        }
+    }
+
+    private void setValue(object obj, string property, float value)
     {
         obj.GetType().GetField(property).SetValue(obj, value);
     }
 
-    private float getValue(Component obj, string property)
+    private float getValue(object obj, string property)
     {
         return (float) obj.GetType().GetField(property).GetValue(obj);
     }
 
-    private IEnumerator CoroutineTo(Component obj, string property, float to, float duration, Func<float, float> transition, Action callback)
+    private IEnumerator CoroutineTo(object obj, string property, float to, float duration, Func<float, float> transition, Action callback)
     {
         float time = 0;
         while (true)
@@ -46,33 +74,31 @@ public class Tween : MonoBehaviour{
         }
     }
 
-    public static void To(Component obj, string property, float to, float duration)
+    public static void To(object obj, string property, float to, float duration)
     {
         To(obj, property, to, duration, Transition.LINEAR, null);
     }
 
-    public static void To(Component obj, string property, float to, float duration, Action callback)
+    public static void To(object obj, string property, float to, float duration, Action callback)
     {
         To(obj, property, to, duration, Transition.LINEAR, callback);
     }
 
-    public static void To(Component obj, string property, float to, float duration, Func<float,float> transition, Action callback)
+    public static void To(object obj, string property, float to, float duration, Func<float,float> transition, Action callback)
     {
-        Tween tween = Utils.GetOrAddComponent<Tween>(obj);
-        tween.StartCoroutine(tween.CoroutineTo(obj, property, to, duration, 
+        TweenInstance.StartCoroutine(TweenInstance.CoroutineTo(obj, property, to, duration, 
             transition,
             callback));
     }
 
-    public static void Delay(Component obj, float duration)
+    public static void Delay(object obj, float duration)
     {
         Delay(obj, duration, null);
     }
 
-    public static void Delay(Component obj, float duration, Action callback)
+    public static void Delay(object obj, float duration, Action callback)
     {
-        Tween tween = Utils.GetOrAddComponent<Tween>(obj);
-        tween.StartCoroutine(tween.CoroutineDelay(duration, callback));
+        TweenInstance.StartCoroutine(TweenInstance.CoroutineDelay(duration, callback));
     }
 }
 

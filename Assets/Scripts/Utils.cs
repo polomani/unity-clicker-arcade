@@ -9,4 +9,10 @@ public static class Utils {
         var newOrExistingComponent = component.gameObject.GetComponent<T>() ?? component.gameObject.AddComponent<T>();
         return newOrExistingComponent;
     }
+
+    public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component
+    {
+        var newOrExistingComponent = gameObject.GetComponent<T>() ?? gameObject.AddComponent<T>();
+        return newOrExistingComponent;
+    }
 }

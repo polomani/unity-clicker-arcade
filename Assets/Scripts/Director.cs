@@ -9,6 +9,13 @@ public static class Director {
     private static int enemiesKilled = 0;
     private static int score = 0;
     private static bool windowOpened;
+    private static bool paused;
+
+    public static bool Paused
+    {
+        get { return Director.paused; }
+        set { Director.paused = value; }
+    }
 
     public static bool WindowOpened
     {

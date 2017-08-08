@@ -7,6 +7,7 @@ public class HeroBehavior : MonoBehaviour {
     public GameObject bulletPrefab;
     private int layerMask;
     public float bulletSpeed = 20;
+    protected bool paused;
 
     private void Awake()
     {
@@ -19,7 +20,7 @@ public class HeroBehavior : MonoBehaviour {
     }
 
 	void Update () {
-        if (Input.GetMouseButtonDown(0) && Director.canShoot())
+        if (Input.GetMouseButtonDown(0) && Director.canShoot() && !paused)
         {
             GameObject bullet;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -31,6 +32,16 @@ public class HeroBehavior : MonoBehaviour {
             }
         }
 	}
+
+    void OnPauseGame()
+    {
+        paused = true;
+    }
+
+    void OnResumeGame()
+    {
+        paused = false;
+    }
 
     void OnCollisionEnter(Collision col)
     {
