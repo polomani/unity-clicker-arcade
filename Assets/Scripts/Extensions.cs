@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Utils {
+public static class Extensions {
 
     public static T GetOrAddComponent<T>(this Component component) where T : Component
     {

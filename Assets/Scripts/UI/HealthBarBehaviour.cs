@@ -15,7 +15,6 @@ public class HealthBarBehaviour : MonoBehaviour {
     {
         styles = new GUIStyle[textures.Length];
         barsLen = new float[textures.Length];
-        Director.HealthBar = this;
         int w = Screen.width;
         size = new Vector2(w * 0.8f, 10);
         pos = new Vector2(w - size.x, size.y*2) / 2;
@@ -33,6 +32,7 @@ public class HealthBarBehaviour : MonoBehaviour {
     }
 
 	void OnGUI () {
+        transform.SetAsFirstSibling(); 
         GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
         GUI.Box(new Rect(0, 0, size.x, size.y), GUIContent.none, styles[0]);
 
@@ -48,9 +48,6 @@ public class HealthBarBehaviour : MonoBehaviour {
         }
 
         GUI.EndGroup();
-	}
-	
-	void Update () {
 	}
 
     public void Show()

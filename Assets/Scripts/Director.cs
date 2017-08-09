@@ -5,7 +5,7 @@ using System.Linq;
 
 public static class Director {
 
-    private const int ENEMIES_TO_KILL = 5;
+    private const int ENEMIES_TO_KILL = 1;
     private static int enemiesSummoned = 0;
     private static int enemiesKilled = 0;
     private static int score = 0;
@@ -13,10 +13,17 @@ public static class Director {
     private static bool paused;
     private static bool bossMode = false;
 
+    private static UIBehavior ui;
+
     private static BossBehavior boss;
-    private static HealthBarBehaviour healthBar;
     private static SpawnsBehaviour spawns;
     private static HeroBehavior hero;
+
+    public static UIBehavior UI
+    {
+        get { return ui; }
+        set { ui = value; }
+    }
 
     public static BossBehavior Boss
     {
@@ -36,16 +43,10 @@ public static class Director {
         set { Director.windowOpened = value; }
     }
 
-    public static HealthBarBehaviour HealthBar
-    {
-        get { return healthBar; }
-        set { healthBar = value; }
-    }
-
     public static int Score
     {
-        get { return Director.score; }
-        set { Director.score = value; }
+        get { return score; }
+        set { score = value; }
     }
 
     public static int EnemiesSummoned
@@ -77,14 +78,13 @@ public static class Director {
         enemiesKilled = 0;
         enemiesSummoned = 0;
         spawns.StartCoroutine("PrepareForWave");
-        healthBar.Hide();
+        UI.healthBar.Hide();
     }
 
     public static void HeroDied()
     {
-        enemiesKilled = 0;
-        enemiesSummoned = 0;
-        score = 0;
+        Pause();
+        UI.gameOverPanel.Open();
     }
 
     public static void EnemyKilled()
@@ -94,7 +94,7 @@ public static class Director {
         {
             bossMode = true;
             spawns.SummonBoss();
-            healthBar.Show();
+            UI.healthBar.Show();
             spawns.StopCoroutine("SummonEnemy");
         }
     }
@@ -115,8 +115,8 @@ public static class Director {
         bossMode = windowOpened = false;
         
         DestroyAllEnemiesAndBoss();
-        HealthBar.Hide();
-        GameObject.FindObjectOfType<PausePanel>().Unpause();
+        UI.healthBar.Hide();
+        Unpause();
         BossBehavior.totalHP = 80;
         spawns.Init();
     }
@@ -131,5 +131,27 @@ public static class Director {
         {
             GameObject.Destroy(gameObjects[i]);
         }
+    }
+
+    public static void Pause()
+    {
+        Paused = true;
+        Object[] objects = GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (GameObject go in objects)
+        {
+            go.SendMessage("OnPauseGame", SendMessageOptions.DontRequireReceiver);
+        }
+        Time.timeScale = 0;
+    }
+
+    public static void Unpause()
+    {
+        Paused = false;
+        Object[] objects = GameObject.FindObjectsOfType(typeof(GameObject));
+        foreach (GameObject go in objects)
+        {
+            go.SendMessage("OnResumeGame", SendMessageOptions.DontRequireReceiver);
+        }
+        Time.timeScale = 1;
     }
 }
