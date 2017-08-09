@@ -14,26 +14,32 @@ public class PausePanel : MonoBehaviour {
         
     }
 
+    public void OnRestartClick(GameObject window)
+    {
+        Director.Restart();
+        window.SetActive(false);
+    }
+
     public void OnPauseClick(GameObject window)
     {      
         if (Director.Paused)
         {
-            unpause();
+            Unpause();
         }
         else
         {
-            pause();
+            Pause();
         }
         window.SetActive(Director.Paused);
     }
 
     public void OnContinueClick(GameObject window)
     {
-        unpause();
+        Unpause();
         window.SetActive(false);
     }
 
-    void pause()
+    void Pause()
     {
         Director.Paused = true;
         Object[] objects = FindObjectsOfType(typeof(GameObject));
@@ -44,7 +50,7 @@ public class PausePanel : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-    void unpause()
+    public void Unpause()
     {
         Director.Paused = false;
         Object[] objects = FindObjectsOfType(typeof(GameObject));

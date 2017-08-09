@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public static class Director {
 
@@ -10,6 +11,18 @@ public static class Director {
     private static int score = 0;
     private static bool windowOpened;
     private static bool paused;
+    private static bool bossMode = false;
+
+    private static BossBehavior boss;
+    private static HealthBarBehaviour healthBar;
+    private static SpawnsBehaviour spawns;
+    private static HeroBehavior hero;
+
+    public static BossBehavior Boss
+    {
+        get { return Director.boss; }
+        set { Director.boss = value; }
+    }
 
     public static bool Paused
     {
@@ -23,14 +36,11 @@ public static class Director {
         set { Director.windowOpened = value; }
     }
 
-    private static HealthBarBehaviour healthBar;
-
     public static HealthBarBehaviour HealthBar
     {
         get { return healthBar; }
         set { healthBar = value; }
     }
-
 
     public static int Score
     {
@@ -42,29 +52,18 @@ public static class Director {
     {
         get { return Director.enemiesSummoned; }
         set { Director.enemiesSummoned = value; }
-    }
-
-    private static SpawnsBehaviour spawns;
+    } 
 
     public static SpawnsBehaviour Spawns
     {
         get { return spawns; }
         set { spawns = value; }
-    }
-    private static bool bossMode = false;
+    } 
 
     public static bool BossMode {
-        get
-        {
-            return bossMode;
-        }
-        set
-        {
-            bossMode = value;
-        }
+        get { return bossMode; }
+        set { bossMode = value; }
     }
-
-    private static HeroBehavior hero;
 
     public static HeroBehavior Hero
     {
@@ -105,8 +104,32 @@ public static class Director {
         return bossMode || enemiesSummoned < ENEMIES_TO_KILL;
     }
 
-    public static bool canShoot()
+    public static bool CanShoot()
     {
-        return !windowOpened;
+        return !windowOpened && !paused;
+    }
+
+    public static void Restart()
+    {
+        score = enemiesKilled = enemiesSummoned = 0;
+        bossMode = windowOpened = false;
+        
+        DestroyAllEnemiesAndBoss();
+        HealthBar.Hide();
+        GameObject.FindObjectOfType<PausePanel>().Unpause();
+        BossBehavior.totalHP = 80;
+        spawns.Init();
+    }
+
+    private static void DestroyAllEnemiesAndBoss()
+    {
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag ("Enemy").
+                                   Concat(GameObject.FindGameObjectsWithTag ("Boss")).
+                                   Concat(GameObject.FindGameObjectsWithTag ("Bullet")).ToArray();
+
+        for (var i = 0; i < gameObjects.Length; i++)
+        {
+            GameObject.Destroy(gameObjects[i]);
+        }
     }
 }

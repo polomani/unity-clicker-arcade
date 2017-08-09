@@ -16,8 +16,14 @@ public class SpawnsBehaviour : MonoBehaviour {
             Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType==SpawnType.TOP
                    || o.GetComponent<SpawnPlaceBehavior>().spawnType==SpawnType.DOWN).
             ToArray();
-        StartCoroutine("PrepareForWave");
+        Init();
 	}
+
+    public void Init()
+    {
+        StopAllCoroutines();
+        StartCoroutine("PrepareForWave");
+    }
 
     public IEnumerator PrepareForWave()
     {
