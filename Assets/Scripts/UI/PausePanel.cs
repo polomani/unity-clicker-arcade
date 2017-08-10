@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PausePanel : MonoBehaviour {
 
+    public GameObject button; 
+
     void Start()
     {
-        gameObject.SetActive(false);
+        Hide();
     }
 
     void Update()
@@ -17,7 +19,7 @@ public class PausePanel : MonoBehaviour {
     public void OnRestartClick(GameObject window)
     {
         Director.Restart();
-        window.SetActive(false);
+        Hide();
     }
 
     public void OnPauseClick(GameObject window)
@@ -39,8 +41,26 @@ public class PausePanel : MonoBehaviour {
     public void OnContinueClick(GameObject window)
     {
         Director.Unpause();
-        window.SetActive(false);
+        Hide();
     }
 
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
 
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void ShowButton()
+    {
+        button.SetActive(true);
+    }
+
+    public void HideButton()
+    {
+        button.SetActive(false);
+    }
 }

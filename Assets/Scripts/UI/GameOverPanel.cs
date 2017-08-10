@@ -23,9 +23,20 @@ public class GameOverPanel : MonoBehaviour {
         window.SetActive(false);
     }
 
-    public void Open()
+    public void OnHomeClick()
+    {
+        Hide();
+        Director.UI.mainMenu.Home();
+    }
+
+    public void Show()
     {
         scoreText.text = Director.Score.ToString();
         gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
     }
 }

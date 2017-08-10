@@ -5,7 +5,7 @@ using System.Linq;
 
 public static class Director {
 
-    private const int ENEMIES_TO_KILL = 1;
+    private const int ENEMIES_TO_KILL = 5;
     private static int enemiesSummoned = 0;
     private static int enemiesKilled = 0;
     private static int score = 0;
@@ -84,7 +84,7 @@ public static class Director {
     public static void HeroDied()
     {
         Pause();
-        UI.gameOverPanel.Open();
+        UI.gameOverPanel.Show();
     }
 
     public static void EnemyKilled()
@@ -118,7 +118,7 @@ public static class Director {
         UI.healthBar.Hide();
         Unpause();
         BossBehavior.totalHP = 80;
-        spawns.Init();
+        if (spawns) spawns.Init();
     }
 
     private static void DestroyAllEnemiesAndBoss()

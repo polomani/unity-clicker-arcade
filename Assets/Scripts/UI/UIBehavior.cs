@@ -9,6 +9,7 @@ public class UIBehavior : MonoBehaviour {
     public GameOverPanel gameOverPanel;
     public HealthBarBehaviour healthBar;
     public PausePanel pausePanel;
+    public MainMenu mainMenu;
 
     void Awake()
     {
@@ -22,6 +23,17 @@ public class UIBehavior : MonoBehaviour {
 
     public void OpenGameOverPanel()
     {
-        gameOverPanel.Open();
+        gameOverPanel.Show();
+    }
+
+    public void HideScoreTextAndPauseButton() {
+        scoreText.enabled = false;
+        pausePanel.HideButton();
+    }
+
+    public void ShowScoreTextAndPauseButton()
+    {
+        scoreText.enabled = true;
+        pausePanel.ShowButton();
     }
 }
