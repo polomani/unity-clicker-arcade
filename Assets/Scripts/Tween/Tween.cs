@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Reflection;
 
 public class Tween : MonoBehaviour{
 
@@ -35,22 +36,35 @@ public class Tween : MonoBehaviour{
 
     private void setValue(object obj, string property, float value)
     {
-        obj.GetType().GetField(property).SetValue(obj, value);
+        Type type = obj.GetType();
+        FieldInfo finfo = type.GetField(property);
+        PropertyInfo pinfo = type.GetProperty(property);
+        if (finfo!=null)
+            finfo.SetValue(obj, value);
+        else
+            pinfo.SetValue(obj, value, null);
     }
 
     private float getValue(object obj, string property)
     {
-        return (float) obj.GetType().GetField(property).GetValue(obj);
+        Type type = obj.GetType();
+        FieldInfo finfo = type.GetField(property);
+        PropertyInfo pinfo = type.GetProperty(property);
+        if (finfo != null)
+            return (float) finfo.GetValue(obj);
+        else
+            return (float) pinfo.GetValue(obj, null);
     }
 
     private IEnumerator CoroutineTo(object obj, string property, float to, float duration, Func<float, float> transition, Action callback)
     {
-        float time = 0;
+        float startTime = Time.realtimeSinceStartup;
+        float elapsed = 0;
         while (true)
         {
-            time += Time.deltaTime;
-            setValue(obj, property, Mathf.Lerp(getValue(obj, property), to, transition(time/duration)));
-            if (time >= duration)
+            elapsed = Time.realtimeSinceStartup - startTime;
+            setValue(obj, property, Mathf.Lerp(getValue(obj, property), to, transition(elapsed/duration)));
+            if (elapsed >= duration)
             {
                 if (callback!=null) callback();
                 yield break;
@@ -61,11 +75,12 @@ public class Tween : MonoBehaviour{
 
     private IEnumerator CoroutineDelay(float duration, Action callback)
     {
-        float time = 0;
+        float startTime = Time.realtimeSinceStartup;
+        float elapsed = 0;
         while (true)
         {
-            time += Time.deltaTime;
-            if (time >= duration)
+            elapsed = Time.realtimeSinceStartup - startTime;
+            if (elapsed >= duration)
             {
                 if (callback!=null) callback();
                 yield break;

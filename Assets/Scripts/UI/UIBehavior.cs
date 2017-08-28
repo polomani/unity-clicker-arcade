@@ -10,6 +10,8 @@ public class UIBehavior : MonoBehaviour {
     public HealthBarBehaviour healthBar;
     public PausePanel pausePanel;
     public MainMenu mainMenu;
+    public SkinObject[] skins;
+    public ShopPanel shopPanel;
 
     void Awake()
     {

@@ -14,10 +14,17 @@ public static class Director {
     private static bool bossMode = false;
 
     private static UIBehavior ui;
+    private static Repository repository;
 
     private static BossBehavior boss;
     private static SpawnsBehaviour spawns;
     private static HeroBehavior hero;
+
+    public static Repository Repository
+    {
+        get { return Director.repository; }
+        set { Director.repository = value; }
+    }
 
     public static UIBehavior UI
     {

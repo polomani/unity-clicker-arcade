@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class HeroBehavior : MonoBehaviour {
 
+    public SkinObject skin;
     public GameObject bulletPrefab;
     private int layerMask;
     public float bulletSpeed = 20;
+    public GameObject[] skinObjects;
 
     private void Awake()
     {
         Director.Hero = this;
+        ActivateSkin(Repository.Data.HeroSkin);
     }
 
     void Start()
@@ -36,5 +39,19 @@ public class HeroBehavior : MonoBehaviour {
     {
         Destroy(col.collider.gameObject);
         Director.HeroDied();
+    }
+
+    void DeactivateSkins()
+    {
+        foreach (GameObject skinObject in skinObjects)
+        {
+            skinObject.SetActive(false);
+        }
+    }
+
+    public void ActivateSkin(int number)
+    {
+        DeactivateSkins();
+        skinObjects[number].SetActive(true);
     }
 }
