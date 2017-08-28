@@ -57,13 +57,14 @@ public class Tween : MonoBehaviour{
     }
 
     private IEnumerator CoroutineTo(object obj, string property, float to, float duration, Func<float, float> transition, Action callback)
-    {
+    {   
+        float from = getValue(obj, property);
         float startTime = Time.realtimeSinceStartup;
         float elapsed = 0;
         while (true)
         {
             elapsed = Time.realtimeSinceStartup - startTime;
-            setValue(obj, property, Mathf.Lerp(getValue(obj, property), to, transition(elapsed/duration)));
+            setValue(obj, property, Mathf.Lerp(from, to, transition(elapsed/duration)));
             if (elapsed >= duration)
             {
                 if (callback!=null) callback();
