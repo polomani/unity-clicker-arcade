@@ -37,7 +37,8 @@ public class FortuneWheel : MonoBehaviour {
             sumPercents += chance[++giftNumber];
         }
         rotationTo = - initialRotation.eulerAngles.z + wheel.transform.rotation.eulerAngles.z;
-        Tween.To(this, "rotationTo", 360*7 + giftNumber * 360 / 8, 7f, Transition.SMOOTH_STEP, () => Rewarding(giftNumber));
+        Tween.To(this, "rotationTo", 360*7 + giftNumber * 360 / 8, 7f, false, 
+            Transition.SMOOTH_STEP, () => Rewarding(giftNumber));
     }
 
     public void Rewarding(int giftNumber)

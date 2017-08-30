@@ -43,7 +43,7 @@ public class ShopPanel : MonoBehaviour {
         {
             scrolling = true;
             Tween.To(scrollRect, "verticalNormalizedPosition", 
-                scrollRect.verticalNormalizedPosition - 0.4f, 0.3f,
+                scrollRect.verticalNormalizedPosition - 0.4f, 0.3f, false,
                 () => scrolling = false);
         }
     }
@@ -54,7 +54,7 @@ public class ShopPanel : MonoBehaviour {
         {
             scrolling = true;
             Tween.To(scrollRect, "verticalNormalizedPosition", 
-                scrollRect.verticalNormalizedPosition + 0.4f, 0.3f,
+                scrollRect.verticalNormalizedPosition + 0.4f, 0.3f, false,
                 () => scrolling = false);
         }
     }

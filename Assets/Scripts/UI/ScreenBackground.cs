@@ -24,10 +24,10 @@ public class ScreenBackground : MonoBehaviour
     private void Appear()
     {
         Director.WindowOpened = true;
-        Tween.To(this, "alpha", 1f, 0.5f,
+        Tween.To(this, "alpha", 1f, 0.5f, true,
             () => Tween.Delay(
-                this, 1, () => Tween.To(
-                    this, "alpha", 0f, 0.5f, () => Director.WindowOpened = false
+                this, 1, true, () => Tween.To(
+                    this, "alpha", 0f, 0.5f, true, () => Director.WindowOpened = false
                 )
             )
         );

@@ -56,14 +56,14 @@ public class Tween : MonoBehaviour{
             return (float) pinfo.GetValue(obj, null);
     }
 
-    private IEnumerator CoroutineTo(object obj, string property, float to, float duration, Func<float, float> transition, Action callback)
+    private IEnumerator CoroutineTo(object obj, string property, float to, float duration, bool canPause, Func<float, float> transition, Action callback)
     {   
         float from = getValue(obj, property);
         float startTime = Time.realtimeSinceStartup;
         float elapsed = 0;
         while (true)
         {
-            elapsed = Time.realtimeSinceStartup - startTime;
+            elapsed = canPause ? elapsed+=Time.deltaTime : Time.realtimeSinceStartup - startTime;
             setValue(obj, property, Mathf.Lerp(from, to, transition(elapsed/duration)));
             if (elapsed >= duration)
             {
@@ -74,13 +74,13 @@ public class Tween : MonoBehaviour{
         }
     }
 
-    private IEnumerator CoroutineDelay(float duration, Action callback)
+    private IEnumerator CoroutineDelay(float duration, bool canPause, Action callback)
     {
         float startTime = Time.realtimeSinceStartup;
         float elapsed = 0;
         while (true)
         {
-            elapsed = Time.realtimeSinceStartup - startTime;
+            elapsed = canPause ? elapsed += Time.deltaTime : Time.realtimeSinceStartup - startTime;
             if (elapsed >= duration)
             {
                 if (callback!=null) callback();
@@ -90,31 +90,30 @@ public class Tween : MonoBehaviour{
         }
     }
 
-    public static void To(object obj, string property, float to, float duration)
+    public static void To(object obj, string property, float to, float duration, bool canPause)
     {
-        To(obj, property, to, duration, Transition.LINEAR, null);
+        To(obj, property, to, duration, canPause, Transition.LINEAR, null);
     }
 
-    public static void To(object obj, string property, float to, float duration, Action callback)
+    public static void To(object obj, string property, float to, float duration, bool canPause, Action callback)
     {
-        To(obj, property, to, duration, Transition.LINEAR, callback);
+        To(obj, property, to, duration, canPause, Transition.LINEAR, callback);
     }
 
-    public static void To(object obj, string property, float to, float duration, Func<float,float> transition, Action callback)
+    public static void To(object obj, string property, float to, float duration, bool canPause, Func<float, float> transition, Action callback)
     {
-        TweenInstance.StartCoroutine(TweenInstance.CoroutineTo(obj, property, to, duration, 
-            transition,
-            callback));
+        TweenInstance.StartCoroutine(TweenInstance.CoroutineTo(obj, property, to, 
+            duration, canPause, transition, callback));
     }
 
-    public static void Delay(object obj, float duration)
+    public static void Delay(object obj, bool canPause, float duration)
     {
-        Delay(obj, duration, null);
+        Delay(obj, duration, canPause, null);
     }
 
-    public static void Delay(object obj, float duration, Action callback)
+    public static void Delay(object obj, float duration, bool canPause, Action callback)
     {
-        TweenInstance.StartCoroutine(TweenInstance.CoroutineDelay(duration, callback));
+        TweenInstance.StartCoroutine(TweenInstance.CoroutineDelay(duration, canPause, callback));
     }
 }
 
