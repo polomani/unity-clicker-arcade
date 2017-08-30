@@ -31,8 +31,17 @@ public class GameOverPanel : MonoBehaviour {
 
     public void Show()
     {
-        scoreText.text = Director.Score.ToString();
-        gameObject.SetActive(true);
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+            scoreText.text = Director.Score.ToString();
+            if (Director.Score > Repository.Data.BestResult)
+            {
+                scoreText.text = "[BEST] " + scoreText.text;
+                Repository.Data.BestResult = Director.Score;
+                Director.UI.SetBestScoreText(Director.Score);
+            }
+        }
     }
 
     public void Hide()

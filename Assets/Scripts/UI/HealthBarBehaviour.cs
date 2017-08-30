@@ -17,7 +17,7 @@ public class HealthBarBehaviour : MonoBehaviour {
         barsLen = new float[textures.Length];
         int w = Screen.width;
         size = new Vector2(w * 0.8f, 10);
-        pos = new Vector2(w - size.x, size.y*2) / 2;
+        pos = new Vector2(w - size.x, 50 + size.y) / 2;
         for (int i = 0; i < textures.Length; ++i)
         {
             setTexture(textures[i], styles[i] = new GUIStyle());

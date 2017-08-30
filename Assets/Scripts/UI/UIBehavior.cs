@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIBehavior : MonoBehaviour {
 
     public Text scoreText;
+    public Text bestScoreText;
     public GameOverPanel gameOverPanel;
     public HealthBarBehaviour healthBar;
     public PausePanel pausePanel;
@@ -16,17 +17,13 @@ public class UIBehavior : MonoBehaviour {
     void Awake()
     {
         Director.UI = this;
+        Director.UI.SetBestScoreText(Repository.Data.BestResult);
     }
 	
 	// Update is called once per frame
 	void Update () {
         scoreText.text = Director.Score.ToString();
 	}
-
-    public void OpenGameOverPanel()
-    {
-        gameOverPanel.Show();
-    }
 
     public void HideScoreTextAndPauseButton() {
         scoreText.enabled = false;
@@ -37,5 +34,10 @@ public class UIBehavior : MonoBehaviour {
     {
         scoreText.enabled = true;
         pausePanel.ShowButton();
+    }
+
+    public void SetBestScoreText(int score)
+    {
+        bestScoreText.text = "Best: " + score;
     }
 }

@@ -37,7 +37,7 @@ public class HeroBehavior : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        Destroy(col.collider.gameObject);
+        Destroy(col.gameObject);
         Director.HeroDied();
     }
 
