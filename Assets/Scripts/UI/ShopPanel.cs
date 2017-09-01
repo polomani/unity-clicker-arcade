@@ -35,6 +35,7 @@ public class ShopPanel : MonoBehaviour {
 
     public void UpdateCoinsText() {
         coins.text = "$" + Repository.Data.Coins;
+        Director.UI.UpdateCoinsText();
     }
 
     public void scrollDown()

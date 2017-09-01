@@ -86,6 +86,8 @@ public static class Director {
         enemiesSummoned = 0;
         spawns.StartCoroutine("PrepareForWave");
         UI.healthBar.Hide();
+        Repository.Data.Coins += 10;
+        UI.UpdateCoinsText();
     }
 
     public static void HeroDied()

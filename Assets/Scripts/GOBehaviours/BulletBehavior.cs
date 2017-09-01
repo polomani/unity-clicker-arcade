@@ -23,7 +23,11 @@ public class BulletBehavior : MonoBehaviour {
         else if (col.gameObject.CompareTag("Player"))
         {
             Director.HeroDied();
-        } 
+        }
+        else if (col.gameObject.CompareTag("Coin"))
+        {
+            col.gameObject.GetComponent<CoinBehaviour>().Hit();
+        }
     }
 }
 

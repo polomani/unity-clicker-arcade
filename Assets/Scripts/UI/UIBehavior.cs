@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIBehavior : MonoBehaviour {
 
+    public Text coinsText;
     public Text scoreText;
     public Text bestScoreText;
     public GameOverPanel gameOverPanel;
@@ -18,6 +19,7 @@ public class UIBehavior : MonoBehaviour {
     {
         Director.UI = this;
         Director.UI.SetBestScoreText(Repository.Data.BestResult);
+        UpdateCoinsText();
     }
 	
 	// Update is called once per frame
@@ -39,5 +41,10 @@ public class UIBehavior : MonoBehaviour {
     public void SetBestScoreText(int score)
     {
         bestScoreText.text = "Best: " + score;
+    }
+
+    public void UpdateCoinsText()
+    {
+        coinsText.text = "$" + Repository.Data.Coins;
     }
 }
