@@ -14,6 +14,7 @@ public class UIBehavior : MonoBehaviour {
     public MainMenu mainMenu;
     public SkinObject[] skins;
     public ShopPanel shopPanel;
+    public UnixTime unixTime;
 
     void Awake()
     {

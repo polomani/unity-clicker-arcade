@@ -6,12 +6,18 @@ using UnityEngine;
 [System.Serializable]
 public class DataObject {
 
+    private int lastFortuneSpin = 0;
     private int coins = 200;
     private int bestResult = 0;
 
     private int heroSkin = 0;
     private bool[] skins = new bool[6] { true, false, false, false, false, false };
 
+    public int LastFortuneSpin
+    {
+        get { return lastFortuneSpin; }
+        set { lastFortuneSpin = value; Repository.Save(); }
+    }
     public int BestResult
     {
         get { return bestResult; }
