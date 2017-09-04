@@ -34,12 +34,14 @@ public class GameOverPanel : MonoBehaviour {
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
-            scoreText.text = Director.Score.ToString();
-            if (Director.Score > Repository.Data.BestResult)
+            var score = Director.Score;
+            scoreText.text = score.ToString();
+            if (score > Repository.Data.BestResult)
             {
                 scoreText.text = "[BEST] " + scoreText.text;
-                Repository.Data.BestResult = Director.Score;
-                Director.UI.SetBestScoreText(Director.Score);
+                Repository.Data.BestResult = score;
+                Director.UI.SetBestScoreText(score);
+                Director.UI.gpg.ReportScore(score);
             }
         }
     }

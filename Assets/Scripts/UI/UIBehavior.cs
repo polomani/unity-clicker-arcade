@@ -15,6 +15,7 @@ public class UIBehavior : MonoBehaviour {
     public SkinObject[] skins;
     public ShopPanel shopPanel;
     public UnixTime unixTime;
+    public GPGDirector gpg;
 
     void Awake()
     {
