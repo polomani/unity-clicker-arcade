@@ -16,6 +16,7 @@ public class BossBehavior : MonoBehaviour {
     public static float totalHP = 80;
     public static float HP;
     public ScreenBackground back;
+    public GameObject spinner;
 
     void Awake()
     {
@@ -47,6 +48,7 @@ public class BossBehavior : MonoBehaviour {
     }
 	
 	void Update () {
+        spinner.transform.Rotate(new Vector3(0, 0, 1), 5);
         transform.position = Vector3.Lerp(transform.position, spawn.transform.position, 1/dodgeSpeed);
 	}
 

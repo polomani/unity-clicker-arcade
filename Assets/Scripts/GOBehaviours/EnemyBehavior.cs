@@ -14,6 +14,7 @@ public class EnemyBehavior : MonoBehaviour {
     private bool isGrounded = true;
     private EnemyState state = EnemyState.Init;
     private Vector3 xSide;
+    public GameObject spinner;
 
 
 
@@ -57,6 +58,7 @@ public class EnemyBehavior : MonoBehaviour {
 
     void Update()
     {
+        spinner.transform.Rotate(new Vector3(0, 0, 1), 5);
         if (!isGrounded && state==EnemyState.UpperRun)
         {
             state = EnemyState.Jump;
