@@ -22,7 +22,7 @@ public class CoinsSpawner : MonoBehaviour {
                 int y = Random.Range(0, Screen.height);
                 Vector3 position = Camera.main.ScreenToWorldPoint(new Vector3(x, y, Camera.main.nearClipPlane + 8));
                 position.z = 0;
-                Instantiate(coinPrefab, position, Quaternion.identity);
+                Instantiate(coinPrefab, position, Quaternion.Euler(90, 0, 0));
             }
         }
     }
