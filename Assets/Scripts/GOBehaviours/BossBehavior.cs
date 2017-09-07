@@ -27,7 +27,7 @@ public class BossBehavior : MonoBehaviour {
         }
         HP = totalHP;
         GameObject[] firstSpawns = GameObject.FindGameObjectsWithTag("Respawn").
-            Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType == SpawnType.TOP).
+            Where(o => o.GetComponent<SpawnPlaceBehavior>().spawnType == SpawnType.TOPCENTER).
             ToArray();
         spawn = firstSpawns[Random.Range(0, firstSpawns.Length)];
         transform.position = spawn.transform.position;

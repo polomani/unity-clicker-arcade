@@ -10,5 +10,5 @@ public class SpawnPlaceBehavior : MonoBehaviour {
 
 public enum SpawnType
 {
-    TOPSIDE, TOP, DOWN, CENTER
+    TOPSIDE, TOP, DOWN, CENTER, TOPCENTER
 }

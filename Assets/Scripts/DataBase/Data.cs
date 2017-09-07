@@ -7,7 +7,7 @@ using UnityEngine;
 public class DataObject {
 
     private int lastFortuneSpin = 0;
-    private int coins = 200;
+    private int coins = 0;
     private int bestResult = 0;
 
     private int heroSkin = 0;
